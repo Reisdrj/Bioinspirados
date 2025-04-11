@@ -6,11 +6,10 @@ from sys import float_info
 
 MAX_FLOAT = float_info.max
 
-np.random.seed(222050002) # Setting seed
-
 class AlgoritmoGenetico:
 
-    def __init__(self, pop_size, pc, pm, pv, min_interval, max_interval, n_bits, n_ger, n_elite):
+    def __init__(self, pop_size, pc, pm, pv, min_interval, max_interval, n_bits, n_ger, n_elite, n_parameters, seed):
+        self.seed = seed
         self.n_bits = n_bits
         self.pc = pc
         self.pm = pm
@@ -19,6 +18,7 @@ class AlgoritmoGenetico:
         self.max_interval = max_interval
         self.n_ger = n_ger
         self.pop_size = pop_size
+        self.n_parameters = n_parameters
         self.pop = self.generate_random_population()
         self.n_elite = n_elite
 
@@ -43,7 +43,7 @@ class AlgoritmoGenetico:
         return pop
     
     def generate_random_individual(self):
-        params = [list(np.random.randint(0, 2, size=self.n_bits)) for _ in range(2)]
+        params = [list(np.random.randint(0, 2, size=self.n_bits)) for _ in range(self.n_parameters)]
         return Individuo(self.n_bits, params, self.min_interval, self.max_interval)
 
     def tournament(self): #  Minimização
@@ -95,9 +95,11 @@ class AlgoritmoGenetico:
                 filho_1_aux = list(p1[:cut] + p2[cut:])
                 filho_2_aux = list(p2[:cut] + p1[cut:])
 
-                # Gera filhos com 2 parâmetros (não escalável, corrigir)
-                filho_1 = Individuo(self.n_bits, [filho_1_aux[:self.n_bits], filho_1_aux[self.n_bits:]], self.min_interval, self.max_interval)
-                filho_2 = Individuo(self.n_bits, [filho_2_aux[:self.n_bits], filho_2_aux[self.n_bits:]], self.min_interval, self.max_interval)
+                params_1 = [filho_1_aux[i * self.n_bits : (i + 1) * self.n_bits] for i in range(self.n_parameters)]
+                params_2 = [filho_2_aux[i * self.n_bits : (i + 1) * self.n_bits] for i in range(self.n_parameters)]
+
+                filho_1 = Individuo(self.n_bits, params_1, self.min_interval, self.max_interval)
+                filho_2 = Individuo(self.n_bits, params_2, self.min_interval, self.max_interval)
 
                 intermed_population.append(filho_1)
                 intermed_population.append(filho_2)
@@ -112,15 +114,13 @@ class AlgoritmoGenetico:
             r = np.random.random()
 
             if (r < self.pm):
-                pos = np.random.randint(0, self.n_bits * 2)
+                random_pos = np.random.randint(0, (self.n_bits * self.n_parameters))
 
-                # Específico para 6 bits e 2 dimensões
-                if pos < 6:
-                    intermed_population[i].parameters[0][pos] = 0 if intermed_population[i].parameters[0][pos]  == 1 else 1
+                parameter = int((random_pos / self.n_bits))
 
-                else:
-                    pos = pos % 6
-                    intermed_population[i].parameters[1][pos]  = 0 if intermed_population[i].parameters[1][pos]  == 1 else 1
+                idx = random_pos % self.n_bits
+
+                intermed_population[i].parameters[parameter][idx] = 0 if intermed_population[i].parameters[parameter][idx] == 1 else 1
 
     def elitism(self, n_elite, intermed_pop):
         minimum = MAX_FLOAT
@@ -142,6 +142,9 @@ class AlgoritmoGenetico:
         intermed_pop[1] = copy.deepcopy(self.pop[idxs[1]])
 
     def solve(self):
+
+        np.random.seed(self.seed) # Setting seed
+
         iterator = 0
         while (iterator < self.n_ger):
             result = self.tournament()

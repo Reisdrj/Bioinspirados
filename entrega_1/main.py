@@ -3,7 +3,6 @@ from utils.AG import AlgoritmoGenetico
 from utils.utils import get_env
 from dotenv import load_dotenv
 
-
 load_dotenv(dotenv_path=".env")
 
 MIN_INTERVAL: Final[int] = get_env("MIN_INTERVAL", int)
@@ -15,7 +14,9 @@ PC = get_env("PC", float)
 PM = get_env("PM", float)
 PV = get_env("PV", float)
 N_ELITE = get_env("N_ELITE", int)
+N_PARAMETERS = get_env("N_PARAMETERS", int)
+SEED = get_env("SEED", int)
 
-ag = AlgoritmoGenetico(POP_SIZE, PC, PM, PV, MIN_INTERVAL, MAX_INTERVAL, N_BITS, N_GER, N_ELITE)
+ag = AlgoritmoGenetico(POP_SIZE, PC, PM, PV, MIN_INTERVAL, MAX_INTERVAL, N_BITS, N_GER, N_ELITE, N_PARAMETERS, SEED)
 ag.solve()
 ag.get_best_individual()
