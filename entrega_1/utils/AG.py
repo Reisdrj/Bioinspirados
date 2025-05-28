@@ -23,7 +23,7 @@ class AlgoritmoGenetico:
         self.n_elite = n_elite
 
     def get_best_individual(self):
-        minimum = self.pop[0].fitness
+        minimum = MAX_FLOAT
         idx = -1
         for j in range(len(self.pop)):
             if self.pop[j].fitness < minimum:
@@ -154,6 +154,4 @@ class AlgoritmoGenetico:
             self.pop = copy.deepcopy(intermed_population)
 
             iterator += 1
-
-
 

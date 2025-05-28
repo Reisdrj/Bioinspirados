@@ -1,0 +1,17 @@
+selection,penalty,n_gen,pop_size,mean,std,best_value,worst_value
+roulette_rank,inviavel_penalizada,100,100,1733.6,4.427188724235728,1735,1721
+roulette_rank,inviavel_penalizada,100,200,1735.0,0.0,1735,1735
+roulette_rank,inviavel_penalizada,200,100,1735.0,0.0,1735,1735
+roulette_rank,inviavel_penalizada,200,200,1735.0,0.0,1735,1735
+roulette_rank,penalidade_severa,100,100,1733.6,4.427188724235737,1735,1721
+roulette_rank,penalidade_severa,100,200,1735.0,0.0,1735,1735
+roulette_rank,penalidade_severa,200,100,1730.7,9.730250653389035,1735,1706
+roulette_rank,penalidade_severa,200,200,1733.6,4.427188724235739,1735,1721
+tournament,inviavel_penalizada,100,100,1730.7,9.730250653388996,1735,1706
+tournament,inviavel_penalizada,100,200,1735.0,0.0,1735,1735
+tournament,inviavel_penalizada,200,100,1730.8,6.7626424815550665,1735,1721
+tournament,inviavel_penalizada,200,200,1733.6,4.4271887242357195,1735,1721
+tournament,penalidade_severa,100,100,1730.8,6.7626424815550665,1735,1721
+tournament,penalidade_severa,100,200,1733.6,4.4271887242357195,1735,1721
+tournament,penalidade_severa,200,100,1730.7,9.730250653388994,1735,1706
+tournament,penalidade_severa,200,200,1735.0,0.0,1735,1735
